@@ -6,11 +6,15 @@ const CategoryTabs = ({ categories, activeCategory, onTabChange }) => {
   const activeRef = useRef(null);
 
   useEffect(() => {
+    // Only scroll the TAB BAR horizontally — never touch the page scroll
     if (activeRef.current && scrollRef.current) {
-      activeRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center'
+      const container = scrollRef.current;
+      const tab = activeRef.current;
+      const containerCenter = container.offsetWidth / 2;
+      const tabCenter = tab.offsetLeft + tab.offsetWidth / 2;
+      container.scrollTo({
+        left: tabCenter - containerCenter,
+        behavior: 'smooth'
       });
     }
   }, [activeCategory]);
