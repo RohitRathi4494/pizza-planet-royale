@@ -10,19 +10,17 @@ import SizeModal from './components/SizeModal';
 import { menuData } from './data/menuData';
 
 function App() {
+  // Clear any stale cart data from old app versions on every load
+  React.useEffect(() => { localStorage.removeItem('cart'); }, []);
+
   const [activeCategory, setActiveCategory] = useState(menuData[0].id);
-  const [cart, setCart] = useState(() => {
-    const saved = localStorage.getItem('cart');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [cart, setCart] = useState([]); // Always start fresh — no persistence between sessions
+
   const [selectedItemForSize, setSelectedItemForSize] = useState(null);
   const [toast, setToast] = useState(null);
   
   const navigate = useNavigate();
 
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
 
   const cartCount = cart.reduce((sum, item) => sum + item.qty, 0);
 

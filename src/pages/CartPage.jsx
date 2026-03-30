@@ -10,45 +10,57 @@ const CartPage = ({ cart, updateQty, clearCart }) => {
 
   const handlePlaceOrder = () => {
     if (!customer.name || !customer.phone || !customer.address) {
-      alert('Please fill in your name, phone number, and address.');
+      alert('Please fill all fields: name, phone number, and address.');
       return;
     }
     if (cart.length === 0) return;
 
-    let message = `🚀 *New Order from Pizza Planet Royale*%0A%0A`;
-    message += `👤 *Customer Details:*%0A`;
+    // Build a message that goes to the OWNER's WhatsApp
+    // Owner sees order details + customer's phone to call them back
+    let message = `🍕 *New Order — Pizza Planet*%0A`;
+    message += `━━━━━━━━━━━━━━━━━━━━%0A`;
+    message += `👤 *Customer*%0A`;
     message += `Name: ${customer.name}%0A`;
-    message += `Phone: ${customer.phone}%0A`;
-    message += `Address: ${customer.address}%0A%0A`;
-    message += `🍕 *Order Items:*%0A`;
+    message += `📞 Phone: ${customer.phone}%0A`;
+    message += `📍 Address: ${customer.address}%0A`;
+    message += `━━━━━━━━━━━━━━━━━━━━%0A`;
+    message += `🛒 *Order Items*%0A`;
 
     cart.forEach(item => {
       const itemTotal = item.price * item.qty;
-      message += `- ${item.name} ${item.size ? `(${item.size})` : ''} x ${item.qty}: ₹${itemTotal}%0A`;
+      message += `• ${item.name} ${item.size ? `(${item.size})` : ''} ×${item.qty} = ₹${itemTotal}%0A`;
     });
 
-    message += `%0A💰 *Grand Total: ₹${total}*%0A%0A`;
-    message += `Please confirm the order! 🛸`;
+    message += `━━━━━━━━━━━━━━━━━━━━%0A`;
+    message += `💰 *Total: ₹${total}*%0A`;
+    message += `%0APlease confirm this order and contact the customer on the number above. 🙏`;
 
-    const whatsappNumber = "919213035750";
-    const url = `https://wa.me/${whatsappNumber}?text=${message}`;
+    // Opens the OWNER's WhatsApp — customer doesn't need to do anything
+    const ownerNumber = "919213035750";
+    const url = `https://wa.me/${ownerNumber}?text=${message}`;
     
     window.open(url, '_blank');
+    clearCart(); // Clear cart immediately after order
     setOrderPlaced(true);
-    // We don't clear cart immediately so user can see what they ordered, but we can clear after some delay or if user clicks 'Done'
   };
 
   if (orderPlaced) {
     return (
       <div className="cart-page success-view">
-        <CheckCircle size={80} color="var(--accent-color)" />
-        <h2>Order Placed Successfully!</h2>
-        <p>Your royal feast is being prepared. We have sent your order details to the owner via WhatsApp.</p>
-        <Link to="/" className="btn btn-primary" onClick={clearCart}>Back to Menu</Link>
+        <div className="success-icon">🍕</div>
+        <h2>Order Sent!</h2>
+        <p>Your order has been sent to <strong>Pizza Planet</strong>. The owner will call or WhatsApp you on <strong>{customer.phone}</strong> to confirm your order and arrange payment.</p>
+        <p className="success-note">Estimated confirmation: within 5–10 minutes</p>
+        <Link to="/" className="btn btn-primary">Back to Menu</Link>
         <style>{`
-          .success-view { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; padding: 2rem; }
-          .success-view h2 { color: var(--accent-color); font-size: 2.5rem; margin: 1.5rem 0; text-transform: uppercase; }
-          .success-view p { color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; }
+          .success-view { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; text-align: center; padding: 2rem; gap: 1rem; }
+          .success-icon { font-size: 5rem; animation: bounce 0.6s ease; }
+          .success-view h2 { color: #22c55e; font-size: 2rem; margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+          .success-view p { color: var(--text-secondary); max-width: 420px; line-height: 1.6; }
+          .success-view p strong { color: white; }
+          .success-note { font-size: 0.8rem; color: #ff5a1f !important; background: rgba(255,90,31,0.1); padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(255,90,31,0.3); }
+          .btn.btn-primary { background: #ff5a1f; color: white; padding: 14px 32px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 0.9rem; margin-top: 1rem; }
+          @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
         `}</style>
       </div>
     );
