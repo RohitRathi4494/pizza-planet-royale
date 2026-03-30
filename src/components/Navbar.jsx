@@ -79,7 +79,10 @@ const Navbar = ({ cartCount, onCartClick }) => {
           transition: var(--transition);
         }
         .nav-links a:hover { color: var(--accent-color); }
-        @media (max-width: 768px) { .nav-links { display: none !important; } }
+        
+        @media (max-width: 768px) { 
+          nav { display: none !important; } 
+        }
       `}</style>
     </nav>
   );

@@ -1,15 +1,18 @@
 :root {
-  --primary-color: #800a0a; /* Royal Maroon */
-  --secondary-color: #3d0909; /* Deep Burgundy */
-  --accent-color: #c5a059; /* Champagne Gold */
-  --bg-dark: #140404; /* Midnight Mahogany */
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --text-primary: #fdfaf5; /* Off-white Parchment */
-  --text-secondary: #c5a059; /* Golden secondary text */
-  --glass: rgba(74, 14, 14, 0.4);
-  --glass-border: rgba(197, 160, 89, 0.3);
-  --shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+  --primary-color: #ff5a1f; /* Action Orange */
+  --secondary-color: #ff3d00; /* Deep Fire */
+  --accent-color: #ffcc00; /* Sun Yellow */
+  --bg-dark: #0d0404; /* Midnight Mahogany */
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --text-primary: #ffffff; 
+  --text-secondary: #999999; 
+  --glass: rgba(25, 25, 25, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
   --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  --radius-lg: 32px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
 }
 
 * {

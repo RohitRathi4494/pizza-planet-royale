@@ -1,105 +1,156 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Heart } from 'lucide-react';
 
 const MenuCard = ({ item, categoryImage, onAddToCart }) => {
+  const [isLiked, setIsLiked] = useState(false);
+  
   const priceDisplay = item.prices 
     ? `₹${item.prices.S || item.prices.M}` 
     : `₹${item.price}`;
 
   return (
-    <div className="menu-card">
-      <div className="card-img-container">
+    <div className="app-menu-card">
+      <div className="card-media">
         <img src={categoryImage} alt={item.name} />
-        <div className="mobile-price-tag">{priceDisplay}</div>
+        <div className="card-badge price-badge">{priceDisplay}</div>
+        <button 
+          className={`card-badge heart-btn ${isLiked ? 'liked' : ''}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsLiked(!isLiked);
+          }}
+        >
+          <Heart size={16} fill={isLiked ? "#ff5a1f" : "none"} color={isLiked ? "#ff5a1f" : "white"} />
+        </button>
       </div>
-      <div className="card-content">
-        <div className="info-header">
-          <h3>{item.name}</h3>
+      
+      <div className="card-info">
+        <div className="info-top">
+          <h3 className="item-name">{item.name}</h3>
+          <span className="item-rating">⭐ 4.8</span>
         </div>
-        <p className="desc">{item.desc}</p>
-        <div className="card-actions">
-          <div className="desktop-price">{priceDisplay}</div>
-          <button className="add-to-cart-btn" onClick={() => onAddToCart(item)}>
-            <span>Add to Cart</span>
-            <Plus size={16} />
-          </button>
-        </div>
+        <p className="item-desc">{item.desc}</p>
+        
+        <button className="app-add-btn" onClick={() => onAddToCart(item)}>
+          Add to Cart
+          <Plus size={18} />
+        </button>
       </div>
 
       <style>{`
-        .menu-card {
-          background: var(--bg-card);
-          border: 1px solid var(--glass-border);
-          border-radius: 24px;
+        .app-menu-card {
+          background: #1a1a1a;
+          border-radius: 28px;
+          margin-bottom: 2rem;
           overflow: hidden;
-          transition: var(--transition);
-          backdrop-filter: blur(10px);
-          position: relative;
-          display: flex;
-          flex-direction: column;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+          border: 1px solid rgba(255,255,255,0.05);
+          transition: 0.3s;
         }
-        .card-img-container {
+        
+        .card-media {
           height: 180px;
-          overflow: hidden;
           position: relative;
+          padding: 8px;
         }
-        .card-img-container img {
+        
+        .card-media img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: var(--transition);
+          border-radius: 22px;
         }
-        .mobile-price-tag {
-          display: none;
+        
+        .card-badge {
           position: absolute;
+          background: rgba(0,0,0,0.6);
+          backdrop-filter: blur(10px);
+          border-radius: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .price-badge {
           top: 15px;
           left: 15px;
-          background: rgba(128, 10, 10, 0.9);
-          backdrop-filter: blur(5px);
-          color: var(--accent-color);
-          padding: 6px 12px;
-          border-radius: 100px;
-          font-weight: 800;
-          font-size: 0.9rem;
-          border: 1px solid var(--accent-color);
+          padding: 5px 12px;
+          color: white;
+          font-weight: 700;
+          font-size: 0.85rem;
         }
-
-        .card-content { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-        .card-content h3 { font-size: 1.25rem; color: white; margin-bottom: 0.5rem; }
-        .card-content .desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem; flex: 1; }
         
-        .card-actions {
+        .heart-btn {
+          top: 15px;
+          right: 15px;
+          width: 32px;
+          height: 32px;
+          color: white;
+          cursor: pointer;
+          transition: 0.3s;
+        }
+        .heart-btn.liked { background: white; border: none; }
+        
+        .card-info {
+          padding: 1rem 1.2rem 1.2rem;
+        }
+        
+        .info-top {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin-bottom: 0.5rem;
         }
-        .desktop-price { font-size: 1.2rem; font-weight: 800; color: var(--accent-color); }
         
-        .add-to-cart-btn {
-          background: var(--primary-color);
-          border: 1px solid var(--accent-color);
+        .item-name {
+          font-size: 1.1rem;
+          font-weight: 800;
           color: white;
-          padding: 0.8rem 1.4rem;
-          border-radius: 100px;
-          cursor: pointer;
-          font-size: 0.8rem;
-          font-weight: 700;
+        }
+        
+        .item-rating {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #ffcc00;
+        }
+        
+        .item-desc {
+          font-size: 0.85rem;
+          color: #999;
+          margin-bottom: 1.2rem;
+          line-height: 1.4;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        .app-add-btn {
+          width: 100%;
+          background: #ff5a1f; /* Action Orange */
+          color: white;
+          border: none;
+          padding: 0.9rem;
+          border-radius: 18px;
+          font-weight: 800;
+          font-size: 0.9rem;
           display: flex;
           align-items: center;
-          gap: 8px;
+          justify-content: center;
+          gap: 10px;
+          cursor: pointer;
           transition: 0.3s;
-          text-transform: uppercase;
+          box-shadow: 0 5px 15px rgba(255, 90, 31, 0.3);
         }
-        .add-to-cart-btn:hover { background: var(--accent-color); color: var(--bg-dark); }
+        
+        .app-add-btn:active {
+          transform: scale(0.98);
+          background: #ff3d00;
+        }
 
         @media (max-width: 768px) {
-          .menu-card { border: none; background: rgba(255,255,255,0.03); }
-          .card-img-container { height: 220px; border-radius: 20px; margin: 10px; }
-          .mobile-price-tag { display: block; }
-          .desktop-price { display: none; }
-          .add-to-cart-btn { width: 100%; justify-content: center; padding: 1rem; }
-          .info-header { display: flex; justify-content: space-between; align-items: baseline; }
-          .card-content { padding: 0.5rem 1rem 1rem; }
+          .card-media { height: 200px; }
         }
       `}</style>
     </div>

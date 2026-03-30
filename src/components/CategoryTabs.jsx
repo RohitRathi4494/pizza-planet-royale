@@ -25,16 +25,22 @@ const CategoryTabs = ({ categories, activeCategory, onTabChange }) => {
             <button
               key={cat.id}
               ref={isActive ? activeRef : null}
-              className={`tab-btn ${isActive ? 'active' : ''}`}
+              className={`app-cat-card ${isActive ? 'active' : ''}`}
               onClick={() => onTabChange(cat.id)}
             >
-              <div className="icon-wrapper">
-                <IconComponent size={20} />
+              <div className="card-inner">
+                <IconComponent size={24} strokeWidth={isActive ? 2.5 : 2} />
               </div>
-              <span className="cat-name">{cat.name}</span>
+              <span className="cat-label">{cat.name}</span>
             </button>
           );
         })}
+        <button className="app-cat-card">
+          <div className="card-inner">
+             <Icons.MoreHorizontal size={24} />
+          </div>
+          <span className="cat-label">See All</span>
+        </button>
       </div>
 
       <style>{`
@@ -42,11 +48,11 @@ const CategoryTabs = ({ categories, activeCategory, onTabChange }) => {
           padding: 1rem 0;
           background: var(--bg-dark);
           width: 100%;
+          overflow: hidden;
         }
         .categories-tabs {
           display: flex;
-          justify-content: flex-start;
-          gap: 1.5rem;
+          gap: 1rem;
           overflow-x: auto;
           padding: 0 5%;
           scrollbar-width: none;
@@ -54,55 +60,51 @@ const CategoryTabs = ({ categories, activeCategory, onTabChange }) => {
         }
         .categories-tabs::-webkit-scrollbar { display: none; }
 
-        .tab-btn {
+        .app-cat-card {
           display: flex;
           flex-direction: column;
           align-items: center;
+          gap: 8px;
           background: transparent;
           border: none;
-          color: var(--text-secondary);
           cursor: pointer;
-          transition: 0.3s;
           flex-shrink: 0;
-          gap: 8px;
-          min-width: 80px;
+          transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .icon-wrapper {
-          width: 55px;
-          height: 55px;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid var(--glass-border);
+
+        .card-inner {
+          width: 65px;
+          height: 65px;
+          background: #1a1a1a;
           border-radius: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
+          color: #999;
           transition: 0.3s;
-          color: var(--text-secondary);
-        }
-        .cat-name {
-          font-size: 0.7rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          text-align: center;
-          line-height: 1.2;
-          width: 80px;
-          display: block;
         }
 
-        .tab-btn.active .icon-wrapper {
-          background: var(--primary-color);
-          border-color: var(--accent-color);
-          color: var(--accent-color);
-          transform: translateY(-5px);
-          box-shadow: 0 10px 20px rgba(128, 10, 10, 0.4);
+        .cat-label {
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #666;
+          transition: 0.3s;
         }
-        .tab-btn.active .cat-name {
-          color: var(--accent-color);
+
+        .app-cat-card.active .card-inner {
+          background: #ffffff;
+          color: #000000;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+          transform: translateY(-2px);
+        }
+
+        .app-cat-card.active .cat-label {
+          color: #ffffff;
+          font-weight: 700;
         }
 
         @media (min-width: 1024px) {
-          .categories-tabs { justify-content: center; gap: 3rem; }
+          .categories-tabs { justify-content: center; gap: 2.5rem; }
         }
       `}</style>
     </div>

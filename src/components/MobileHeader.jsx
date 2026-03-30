@@ -1,96 +1,129 @@
 import React from 'react';
-import { MapPin, Search, ChevronDown } from 'lucide-react';
+import { MapPin, Search, ChevronDown, Bell } from 'lucide-react';
 
 const MobileHeader = () => {
   return (
     <div className="mobile-header">
-      <div className="location-bar">
-        <div className="loc-icon"><MapPin size={18} /></div>
-        <div className="loc-text">
-          <span className="loc-label">Your location</span>
-          <span className="loc-val">Pizza Planet HQ, Mars <ChevronDown size={14} /></span>
+      <div className="header-top">
+        <div className="location-chip">
+          <div className="pin-icon"><MapPin size={16} fill="var(--primary-color)" stroke="var(--primary-color)" /></div>
+          <div className="loc-info">
+            <span className="loc-label">Your location</span>
+            <span className="loc-addr">19578 Sun Cir <ChevronDown size={14} /></span>
+          </div>
         </div>
-        <div className="user-avatar">
-          <img src="https://ui-avatars.com/api/?name=Guest+User&background=800a0a&color=fff" alt="User" />
+        <div className="header-actions">
+          <div className="action-btn"><Bell size={20} /></div>
+          <div className="user-profile">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=100&auto=format&fit=crop" alt="User" />
+          </div>
         </div>
       </div>
       
-      <div className="search-container">
-        <div className="search-box">
-          <Search size={18} color="#999" />
-          <input type="text" placeholder="Type to search your favorite pizza..." />
+      <div className="header-search">
+        <div className="search-pill">
+          <Search size={18} className="search-icon" />
+          <input type="text" placeholder="Type to search" />
+          <div className="filter-dropdown">
+            <span className="filter-text">Now</span>
+            <ChevronDown size={14} />
+          </div>
         </div>
       </div>
 
       <style>{`
         .mobile-header {
           display: none;
-          padding: 1rem 5%;
+          padding: 1.2rem 5% 0.8rem;
           background: var(--bg-dark);
           flex-direction: column;
           gap: 1.2rem;
-          margin-top: 4.5rem; /* Space for fixed navbar if needed, or hide main navbar on mobile */
+          margin-top: 4rem; /* Below fixed Navbar if visible, usually just the app header */
         }
-        .location-bar {
+        .header-top {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .location-chip {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 10px;
         }
-        .loc-icon {
-          width: 40px;
-          height: 40px;
-          background: rgba(197, 160, 89, 0.1);
-          border-radius: 50%;
+        .pin-icon {
+          width: 32px;
+          height: 32px;
+          background: rgba(255, 90, 31, 0.1);
+          border-radius: 10px;
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--accent-color);
         }
-        .loc-text {
-          flex: 1;
+        .loc-info {
           display: flex;
           flex-direction: column;
         }
         .loc-label {
-          font-size: 0.7rem;
+          font-size: 0.65rem;
           color: var(--text-secondary);
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
+          text-transform: capitalize;
         }
-        .loc-val {
-          font-size: 0.9rem;
-          font-weight: 700;
+        .loc-addr {
+          font-size: 0.85rem;
+          font-weight: 800;
           color: white;
+          display: flex;
+          align-items: center;
+          gap: 3px;
+        }
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+        .action-btn {
+          color: var(--text-secondary);
+        }
+        .user-profile img {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 2px solid var(--glass-border);
+          object-fit: cover;
+        }
+        .header-search {
+          width: 100%;
+        }
+        .search-pill {
+          display: flex;
+          align-items: center;
+          background: #ffffff;
+          padding: 0.7rem 1.2rem;
+          border-radius: 50px;
+          gap: 10px;
+          box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .search-icon { color: #888; }
+        .search-pill input {
+          flex: 1;
+          background: transparent;
+          border: none;
+          color: #333;
+          font-size: 0.85rem;
+          font-weight: 500;
+        }
+        .search-pill input:focus { outline: none; }
+        .search-pill input::placeholder { color: #999; }
+        
+        .filter-dropdown {
           display: flex;
           align-items: center;
           gap: 4px;
+          color: #ff5a1f;
+          border-left: 1px solid #eee;
+          padding-left: 10px;
         }
-        .user-avatar img {
-          width: 40px;
-          height: 40px;
-          border-radius: 12px;
-          border: 1px solid var(--accent-color);
-        }
-        .search-container {
-          width: 100%;
-        }
-        .search-box {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid var(--glass-border);
-          padding: 0.8rem 1.2rem;
-          border-radius: 12px;
-        }
-        .search-box input {
-          background: transparent;
-          border: none;
-          color: white;
-          width: 100%;
-          font-size: 0.9rem;
-        }
-        .search-box input:focus { outline: none; }
+        .filter-text { font-size: 0.8rem; font-weight: 700; }
 
         @media (max-width: 768px) {
           .mobile-header { display: flex; }
