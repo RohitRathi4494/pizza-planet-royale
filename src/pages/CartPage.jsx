@@ -44,31 +44,25 @@ Please contact the customer on ${customer.phone} to confirm the order and arrang
     `.trim();
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${OWNER_EMAIL}`, {
+      const response = await fetch('/api/send-order', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          _subject: `🍕 New Order from ${customer.name} — Pizza Planet`,
-          _template: 'table',
-          customer_name: customer.name,
-          customer_phone: customer.phone,
-          customer_address: customer.address,
-          order_items: orderLines,
-          grand_total: `Rs.${total}`,
-          message: emailBody
+          customerName: customer.name,
+          customerPhone: customer.phone,
+          customerAddress: customer.address,
+          orderItems: orderLines,
+          grandTotal: `₹${total}`
         })
       });
 
       const result = await response.json();
 
-      if (result.success === 'true' || result.success === true) {
+      if (result.success) {
         clearCart();
         setOrderPlaced(true);
       } else {
-        throw new Error('Submission failed');
+        throw new Error(result.error || 'Order failed');
       }
     } catch (err) {
       setError('Could not send order. Please try again or call us directly.');
